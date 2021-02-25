@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ipad_ui/home/app_icon/app_icon.dart';
 
 class Dock extends StatelessWidget {
   const Dock({
@@ -18,51 +19,47 @@ class Dock extends StatelessWidget {
           borderRadius: BorderRadius.circular(32),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.4),
-              offset: Offset(0, 2),
-              blurRadius: 4,
-              spreadRadius: 1,
+              color: Colors.black.withOpacity(0.1),
+              offset: Offset(0, 1),
+              blurRadius: 8,
+              spreadRadius: 0,
             ),
           ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            AppIcon(),
-            AppIcon(),
-            AppIcon(),
+            const AppIcon(
+              index: 0,
+              key: ValueKey(0),
+            ),
+            const AppIcon(
+              index: 1,
+              key: ValueKey(1),
+            ),
+            const AppIcon(
+              index: 2,
+              key: ValueKey(2),
+            ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 16),
               width: 2,
               color: const Color.fromRGBO(230, 230, 230, 1),
             ),
-            AppIcon(),
-            AppIcon(),
-            AppIcon(),
+            const AppIcon(
+              index: 3,
+              key: ValueKey(3),
+            ),
+            const AppIcon(
+              index: 4,
+              key: ValueKey(4),
+            ),
+            const AppIcon(
+              index: 5,
+              key: ValueKey(5),
+            ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class AppIcon extends StatelessWidget {
-  const AppIcon();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 68,
-      width: 68,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(
-          width: 0,
-          color: Colors.blue.withOpacity(
-            0.7,
-          ),
-        ),
-        borderRadius: BorderRadius.circular(12),
       ),
     );
   }
