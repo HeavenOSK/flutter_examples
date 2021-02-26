@@ -36,31 +36,28 @@ class NavigationLayer extends HookWidget {
                 (virtualLayerSize.width - AppIcon.size) / 2,
             top: iconState.leftTopEdgePosition.dy -
                 (virtualLayerSize.height - AppIcon.size) / 2,
-            child: AnimatedOpacity(
-              opacity: shouldZoom ? 1 : 0,
-              duration: const Duration(milliseconds: 80),
-              child: AnimatedContainer(
-                height: shouldZoom ? virtualLayerSize.height : AppIcon.size,
-                width: shouldZoom ? virtualLayerSize.width : AppIcon.size,
-                margin: shouldZoom
-                    ? EdgeInsets.zero
-                    : EdgeInsets.only(
-                        left: (virtualLayerSize.width - AppIcon.size) / 2,
-                        top: (virtualLayerSize.height - AppIcon.size) / 2,
-                      ),
-                curve: Curves.easeOut,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.25),
-                        blurRadius: 8,
-                        spreadRadius: 0,
-                      ),
-                    ]),
-                duration: const Duration(milliseconds: 160),
+            child: AnimatedContainer(
+              height: shouldZoom ? virtualLayerSize.height : AppIcon.size,
+              width: shouldZoom ? virtualLayerSize.width : AppIcon.size,
+              margin: shouldZoom
+                  ? EdgeInsets.zero
+                  : EdgeInsets.only(
+                      left: (virtualLayerSize.width - AppIcon.size) / 2,
+                      top: (virtualLayerSize.height - AppIcon.size) / 2,
+                    ),
+              curve: Curves.easeOut,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.25),
+                    blurRadius: 20,
+                    spreadRadius: 0,
+                  ),
+                ],
               ),
+              duration: const Duration(milliseconds: 160),
             ),
           ),
           Positioned(
