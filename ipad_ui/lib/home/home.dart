@@ -36,8 +36,9 @@ class _IPadUIHomeState extends State<IPadUIHome>
               return Center(
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
-                  height: deviceSize.height * (shouldZoom ? 0.99 : 1),
-                  width: deviceSize.width * (shouldZoom ? 0.99 : 1),
+                  curve: Curves.easeIn,
+                  height: deviceSize.height * (shouldZoom ? 0.98 : 1),
+                  width: deviceSize.width * (shouldZoom ? 0.98 : 1),
                   child: child,
                 ),
               );

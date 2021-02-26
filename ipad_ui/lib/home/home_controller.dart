@@ -11,6 +11,11 @@ class HomeController extends StateNotifier<HomeState> {
     required Offset localPosition,
     required Offset globalPosition,
   }) {
+    final currentIconState = state.draggingAppIconState;
+    if (currentIconState != null) {
+      return;
+    }
+
     state = state.copyWith(
       draggingAppIconState: AppIconState(
         index: index,
@@ -22,17 +27,27 @@ class HomeController extends StateNotifier<HomeState> {
   }
 
   void updateDragging({
+    required int index,
+    required Offset localPosition,
     required Offset globalPosition,
   }) {
     final currentIconState = state.draggingAppIconState;
     if (currentIconState == null) {
-      return;
+      state = state.copyWith(
+        draggingAppIconState: AppIconState(
+          index: index,
+          localPosition: localPosition,
+          startPosition: globalPosition,
+          currentPosition: globalPosition,
+        ),
+      );
+    } else {
+      state = state.copyWith(
+        draggingAppIconState: currentIconState.copyWith(
+          currentPosition: globalPosition,
+        ),
+      );
     }
-    state = state.copyWith(
-      draggingAppIconState: currentIconState.copyWith(
-        currentPosition: globalPosition,
-      ),
-    );
   }
 
   void finishDragging() {

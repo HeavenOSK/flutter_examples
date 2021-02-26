@@ -47,7 +47,7 @@ class NavigationLayer extends HookWidget {
                     ),
               curve: Curves.easeOut,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.grey,
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
@@ -57,7 +57,7 @@ class NavigationLayer extends HookWidget {
                   ),
                 ],
               ),
-              duration: const Duration(milliseconds: 160),
+              duration: const Duration(milliseconds: 200),
             ),
           ),
           Positioned(
@@ -68,10 +68,10 @@ class NavigationLayer extends HookWidget {
             child: Padding(
               padding:
                   shouldZoom ? EdgeInsets.all(paddingRate) : EdgeInsets.zero,
-              child: const FittedBox(
-                child: const AppIcon(
-                  index: 0,
-                  key: ValueKey(0),
+              child: FittedBox(
+                child: AppIcon(
+                  index: iconState.index,
+                  key: ValueKey(iconState.index),
                 ),
               ),
             ),

@@ -29,34 +29,58 @@ class Dock extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const AppIcon(
-              index: 0,
-              key: ValueKey(0),
+            const Expanded(
+              child: Center(
+                child: AppIcon(
+                  index: 0,
+                  key: ValueKey(0),
+                ),
+              ),
             ),
-            const AppIcon(
-              index: 1,
-              key: ValueKey(1),
+            const Expanded(
+              child: Center(
+                child: AppIcon(
+                  index: 1,
+                  key: ValueKey(1),
+                ),
+              ),
             ),
-            const AppIcon(
-              index: 2,
-              key: ValueKey(2),
+            const Expanded(
+              child: Center(
+                child: AppIcon(
+                  index: 2,
+                  key: ValueKey(2),
+                ),
+              ),
             ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 16),
               width: 2,
               color: const Color.fromRGBO(230, 230, 230, 1),
             ),
-            const AppIcon(
-              index: 3,
-              key: ValueKey(3),
+            const Expanded(
+              child: Center(
+                child: AppIcon(
+                  index: 3,
+                  key: ValueKey(3),
+                ),
+              ),
             ),
-            const AppIcon(
-              index: 4,
-              key: ValueKey(4),
+            const Expanded(
+              child: Center(
+                child: AppIcon(
+                  index: 4,
+                  key: ValueKey(4),
+                ),
+              ),
             ),
-            const AppIcon(
-              index: 5,
-              key: ValueKey(5),
+            const Expanded(
+              child: Center(
+                child: AppIcon(
+                  index: 5,
+                  key: ValueKey(5),
+                ),
+              ),
             ),
           ],
         ),
