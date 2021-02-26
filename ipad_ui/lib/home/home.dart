@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:ipad_ui/home/app_icon/app_icon_state.dart';
 import 'package:ipad_ui/home/home_controller.dart';
-import 'package:ipad_ui/home/home_state.dart';
+import 'package:ipad_ui/home/navigation_layer/navigation_layer.dart';
 
 import 'dock.dart';
 
@@ -22,7 +23,6 @@ class _IPadUIHomeState extends State<IPadUIHome>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final deviceSize = MediaQuery.of(context).size;
-    final mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -31,11 +31,13 @@ class _IPadUIHomeState extends State<IPadUIHome>
           Consumer(
             builder: (context, watch, child) {
               final state = watch(IPadUIHome.controller.state);
+              final shouldZoom =
+                  state.draggingAppIconState?.shouldZoom ?? false;
               return Center(
                 child: AnimatedContainer(
-                  duration: Duration(milliseconds: 160),
-                  height: deviceSize.height * (state.draggingAny ? 0.99 : 1),
-                  width: deviceSize.width * (state.draggingAny ? 0.99 : 1),
+                  duration: const Duration(milliseconds: 200),
+                  height: deviceSize.height * (shouldZoom ? 0.99 : 1),
+                  width: deviceSize.width * (shouldZoom ? 0.99 : 1),
                   child: child,
                 ),
               );
@@ -55,6 +57,9 @@ class _IPadUIHomeState extends State<IPadUIHome>
           const Align(
             alignment: Alignment.bottomCenter,
             child: Dock(),
+          ),
+          const Positioned.fill(
+            child: NavigationLayer(),
           ),
         ],
       ),

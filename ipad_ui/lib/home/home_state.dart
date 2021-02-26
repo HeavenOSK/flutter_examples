@@ -5,7 +5,6 @@ part 'home_state.freezed.dart';
 
 extension HomeStateX on HomeState {
   bool dragging(int index) => draggingAppIconState?.index == index;
-  bool get draggingAny => draggingAppIconState != null;
 }
 
 @freezed

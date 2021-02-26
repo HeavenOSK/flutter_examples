@@ -6,24 +6,31 @@ import 'package:ipad_ui/home/home_state.dart';
 class HomeController extends StateNotifier<HomeState> {
   HomeController() : super(const HomeState());
 
-  void startDragging(int index, Offset position) {
+  void startDragging({
+    required int index,
+    required Offset localPosition,
+    required Offset globalPosition,
+  }) {
     state = state.copyWith(
       draggingAppIconState: AppIconState(
         index: index,
-        startPosition: position,
-        currentPosition: position,
+        localPosition: localPosition,
+        startPosition: globalPosition,
+        currentPosition: globalPosition,
       ),
     );
   }
 
-  void updateDragging(Offset position) {
+  void updateDragging({
+    required Offset globalPosition,
+  }) {
     final currentIconState = state.draggingAppIconState;
     if (currentIconState == null) {
       return;
     }
     state = state.copyWith(
       draggingAppIconState: currentIconState.copyWith(
-        currentPosition: position,
+        currentPosition: globalPosition,
       ),
     );
   }

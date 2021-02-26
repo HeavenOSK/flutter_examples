@@ -16,11 +16,13 @@ class _$AppIconStateTearOff {
   _AppIconState call(
       {required int index,
       required Offset startPosition,
-      required Offset currentPosition}) {
+      required Offset currentPosition,
+      required Offset localPosition}) {
     return _AppIconState(
       index: index,
       startPosition: startPosition,
       currentPosition: currentPosition,
+      localPosition: localPosition,
     );
   }
 }
@@ -33,6 +35,7 @@ mixin _$AppIconState {
   int get index;
   Offset get startPosition;
   Offset get currentPosition;
+  Offset get localPosition;
 
   @JsonKey(ignore: true)
   $AppIconStateCopyWith<AppIconState> get copyWith;
@@ -43,7 +46,11 @@ abstract class $AppIconStateCopyWith<$Res> {
   factory $AppIconStateCopyWith(
           AppIconState value, $Res Function(AppIconState) then) =
       _$AppIconStateCopyWithImpl<$Res>;
-  $Res call({int index, Offset startPosition, Offset currentPosition});
+  $Res call(
+      {int index,
+      Offset startPosition,
+      Offset currentPosition,
+      Offset localPosition});
 }
 
 /// @nodoc
@@ -59,6 +66,7 @@ class _$AppIconStateCopyWithImpl<$Res> implements $AppIconStateCopyWith<$Res> {
     Object? index = freezed,
     Object? startPosition = freezed,
     Object? currentPosition = freezed,
+    Object? localPosition = freezed,
   }) {
     return _then(_value.copyWith(
       index: index == freezed ? _value.index : index as int,
@@ -68,6 +76,9 @@ class _$AppIconStateCopyWithImpl<$Res> implements $AppIconStateCopyWith<$Res> {
       currentPosition: currentPosition == freezed
           ? _value.currentPosition
           : currentPosition as Offset,
+      localPosition: localPosition == freezed
+          ? _value.localPosition
+          : localPosition as Offset,
     ));
   }
 }
@@ -79,7 +90,11 @@ abstract class _$AppIconStateCopyWith<$Res>
           _AppIconState value, $Res Function(_AppIconState) then) =
       __$AppIconStateCopyWithImpl<$Res>;
   @override
-  $Res call({int index, Offset startPosition, Offset currentPosition});
+  $Res call(
+      {int index,
+      Offset startPosition,
+      Offset currentPosition,
+      Offset localPosition});
 }
 
 /// @nodoc
@@ -97,6 +112,7 @@ class __$AppIconStateCopyWithImpl<$Res> extends _$AppIconStateCopyWithImpl<$Res>
     Object? index = freezed,
     Object? startPosition = freezed,
     Object? currentPosition = freezed,
+    Object? localPosition = freezed,
   }) {
     return _then(_AppIconState(
       index: index == freezed ? _value.index : index as int,
@@ -106,6 +122,9 @@ class __$AppIconStateCopyWithImpl<$Res> extends _$AppIconStateCopyWithImpl<$Res>
       currentPosition: currentPosition == freezed
           ? _value.currentPosition
           : currentPosition as Offset,
+      localPosition: localPosition == freezed
+          ? _value.localPosition
+          : localPosition as Offset,
     ));
   }
 }
@@ -115,7 +134,8 @@ class _$_AppIconState implements _AppIconState {
   const _$_AppIconState(
       {required this.index,
       required this.startPosition,
-      required this.currentPosition});
+      required this.currentPosition,
+      required this.localPosition});
 
   @override
   final int index;
@@ -123,10 +143,12 @@ class _$_AppIconState implements _AppIconState {
   final Offset startPosition;
   @override
   final Offset currentPosition;
+  @override
+  final Offset localPosition;
 
   @override
   String toString() {
-    return 'AppIconState(index: $index, startPosition: $startPosition, currentPosition: $currentPosition)';
+    return 'AppIconState(index: $index, startPosition: $startPosition, currentPosition: $currentPosition, localPosition: $localPosition)';
   }
 
   @override
@@ -140,7 +162,10 @@ class _$_AppIconState implements _AppIconState {
                     .equals(other.startPosition, startPosition)) &&
             (identical(other.currentPosition, currentPosition) ||
                 const DeepCollectionEquality()
-                    .equals(other.currentPosition, currentPosition)));
+                    .equals(other.currentPosition, currentPosition)) &&
+            (identical(other.localPosition, localPosition) ||
+                const DeepCollectionEquality()
+                    .equals(other.localPosition, localPosition)));
   }
 
   @override
@@ -148,7 +173,8 @@ class _$_AppIconState implements _AppIconState {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(index) ^
       const DeepCollectionEquality().hash(startPosition) ^
-      const DeepCollectionEquality().hash(currentPosition);
+      const DeepCollectionEquality().hash(currentPosition) ^
+      const DeepCollectionEquality().hash(localPosition);
 
   @JsonKey(ignore: true)
   @override
@@ -160,7 +186,8 @@ abstract class _AppIconState implements AppIconState {
   const factory _AppIconState(
       {required int index,
       required Offset startPosition,
-      required Offset currentPosition}) = _$_AppIconState;
+      required Offset currentPosition,
+      required Offset localPosition}) = _$_AppIconState;
 
   @override
   int get index;
@@ -168,6 +195,8 @@ abstract class _AppIconState implements AppIconState {
   Offset get startPosition;
   @override
   Offset get currentPosition;
+  @override
+  Offset get localPosition;
   @override
   @JsonKey(ignore: true)
   _$AppIconStateCopyWith<_AppIconState> get copyWith;

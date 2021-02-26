@@ -12,6 +12,8 @@ class AppIcon extends HookWidget {
 
   final int index;
 
+  static double size = 68;
+
   @override
   Widget build(BuildContext context) {
     final controller = useProvider(IPadUIHome.controller);
@@ -22,17 +24,23 @@ class AppIcon extends HookWidget {
     );
     return GestureDetector(
       onPanStart: (d) {
-        controller.startDragging(index, d.globalPosition);
+        controller.startDragging(
+          index: index,
+          localPosition: d.localPosition,
+          globalPosition: d.globalPosition,
+        );
       },
       onPanUpdate: (d) {
-        controller.updateDragging(d.globalPosition);
+        controller.updateDragging(
+          globalPosition: d.globalPosition,
+        );
       },
       onPanEnd: (d) {
         controller.finishDragging();
       },
       child: Container(
-        height: 68,
-        width: 68,
+        height: size,
+        width: size,
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(dragging ? 0.5 : 1),
           border: Border.all(
