@@ -1,23 +1,45 @@
-import 'package:flutter/material.dart';
-import 'package:ipad_ui/components/dock.dart';
+import 'dart:math' as math;
 
-class DockLayer extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:ipad_ui/components/dock.dart';
+import 'package:ipad_ui/layers/dock_layer/controller.dart';
+
+class DockLayer extends HookWidget {
   const DockLayer({Key? key}) : super(key: key);
 
-  @override
-  _DockLayerState createState() => _DockLayerState();
-}
+  static final controller = StateNotifierProvider(
+    (_) => DockLayerController(),
+  );
 
-class _DockLayerState extends State<DockLayer> {
+  static const double bottomPadding = 24;
+
+  static double get allHeight => Dock.height + bottomPadding;
+
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    final bottomOffset = useProvider<double>(
+      DockLayer.controller.state.select(
+        (s) {
+          return s.when(
+            dismissed: () => -allHeight,
+            holding: (s, c) {
+              final currentDiff = (c - s).dy.abs();
+              return -allHeight + math.min(currentDiff, allHeight);
+            },
+            opened: () => 0,
+          );
+        },
+      ),
+    );
     return Positioned(
-      bottom: 0,
+      bottom: bottomOffset,
       left: (deviceSize.width - Dock.width) / 2,
       child: const Padding(
         padding: EdgeInsets.only(
-          bottom: 24,
+          bottom: DockLayer.bottomPadding,
         ),
         child: Dock(),
       ),
