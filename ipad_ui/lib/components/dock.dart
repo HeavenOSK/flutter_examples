@@ -6,6 +6,9 @@ import 'package:ipad_ui/components/normal_app_icon.dart';
 class Dock extends StatelessWidget {
   const Dock({Key? key}) : super(key: key);
 
+  static const double width = 560;
+  static const double height = 108;
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -13,8 +16,8 @@ class Dock extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
         child: Container(
-          height: 108,
-          width: 560,
+          height: height,
+          width: width,
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.7),
             boxShadow: [

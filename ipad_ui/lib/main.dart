@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ipad_ui/pages/spring_board/spring_board.dart';
+import 'package:ipad_ui/ipad_screen.dart';
 
 void main() {
   runApp(
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SpringBoard(),
+      home: IpadScreen(),
     );
   }
 }
