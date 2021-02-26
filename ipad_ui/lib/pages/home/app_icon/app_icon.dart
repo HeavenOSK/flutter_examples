@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ipad_ui/home/home.dart';
-import 'package:ipad_ui/home/home_state.dart';
+import 'package:ipad_ui/pages/home/home.dart';
+import 'package:ipad_ui/pages/home/home_state.dart';
 
 class AppIcon extends StatefulHookWidget {
   const AppIcon({

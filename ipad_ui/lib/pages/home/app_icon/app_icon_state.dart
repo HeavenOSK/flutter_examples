@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ipad_ui/home/app_icon/app_icon.dart';
+import 'package:ipad_ui/pages/home/app_icon/app_icon.dart';
 
 part 'app_icon_state.freezed.dart';
 

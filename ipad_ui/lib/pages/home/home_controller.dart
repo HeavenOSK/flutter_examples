@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ipad_ui/home/app_icon/app_icon_state.dart';
-import 'package:ipad_ui/home/home_state.dart';
+import 'package:ipad_ui/pages/home/app_icon/app_icon_state.dart';
+import 'package:ipad_ui/pages/home/home_state.dart';
 
 class HomeController extends StateNotifier<HomeState> {
   HomeController() : super(const HomeState());

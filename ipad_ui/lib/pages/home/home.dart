@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ipad_ui/home/app_icon/app_icon_state.dart';
-import 'package:ipad_ui/home/home_controller.dart';
-import 'package:ipad_ui/home/navigation_layer/navigation_layer.dart';
+import 'package:ipad_ui/pages/home/app_icon/app_icon_state.dart';
+import 'package:ipad_ui/pages/home/home_controller.dart';
+import 'package:ipad_ui/pages/home/navigation_layer/navigation_layer.dart';
 
 import 'dock.dart';
 

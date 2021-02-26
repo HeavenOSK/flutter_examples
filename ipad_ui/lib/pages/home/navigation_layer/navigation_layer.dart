@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ipad_ui/home/app_icon/app_icon.dart';
-import 'package:ipad_ui/home/app_icon/app_icon_state.dart';
-import 'package:ipad_ui/home/home.dart';
+import 'package:ipad_ui/pages/home/app_icon/app_icon.dart';
+import 'package:ipad_ui/pages/home/app_icon/app_icon_state.dart';
+import 'package:ipad_ui/pages/home/home.dart';
 
 class NavigationLayer extends HookWidget {
   const NavigationLayer({Key? key}) : super(key: key);

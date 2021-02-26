@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ipad_ui/home/app_icon/app_icon.dart';
+import 'package:ipad_ui/pages/home/app_icon/app_icon.dart';
 
 class Dock extends StatelessWidget {
   const Dock({
@@ -8,7 +8,6 @@ class Dock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Container(

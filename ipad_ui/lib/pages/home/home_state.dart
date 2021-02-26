@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ipad_ui/home/app_icon/app_icon_state.dart';
+import 'package:ipad_ui/pages/home/app_icon/app_icon_state.dart';
 
 part 'home_state.freezed.dart';
 
