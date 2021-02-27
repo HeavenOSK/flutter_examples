@@ -14,28 +14,32 @@ class NormalAppIcon extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final controller = useProvider(DockLayer.controller);
-    return OpenContainer<dynamic>(
+    return OpenContainer(
       closedShape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(14),
         ),
       ),
       openBuilder: (c, action) {
-        return AppSandBox(
-          app: ExampleApp(),
-          closeAction: () {
-            action();
-            WidgetsBinding.instance?.addPostFrameCallback(
-              (timeStamp) {
-                controller.open();
-              },
-            );
-          },
+        return Material(
+          type: MaterialType.transparency,
+          child: AppSandBox(
+            app: ExampleApp(),
+            closeAction: () {
+              action();
+              WidgetsBinding.instance?.addPostFrameCallback(
+                (timeStamp) {
+                  controller.open();
+                },
+              );
+            },
+          ),
         );
       },
-      middleColor: Colors.white,
-      closedColor: Colors.white,
-      openColor: Colors.white,
+      openElevation: 0,
+      middleColor: Colors.transparent,
+      closedColor: Colors.transparent,
+      openColor: Colors.transparent,
       tappable: true,
       closedBuilder: (context, action) {
         return GestureDetector(

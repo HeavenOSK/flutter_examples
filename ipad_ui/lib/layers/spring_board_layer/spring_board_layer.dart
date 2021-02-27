@@ -13,12 +13,8 @@ class SpringBoardLayer extends HookWidget {
         height: double.infinity,
         width: double.infinity,
         color: Colors.blue.withOpacity(0.3),
-        child: Stack(
-          children: const [
-            Positioned.fill(
-              child: AppCollectionLayer(),
-            ),
-          ],
+        child: Positioned.fill(
+          child: AppCollectionLayer(),
         ),
       ),
     );
