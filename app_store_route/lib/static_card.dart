@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 
 class StaticCard extends StatelessWidget {
   const StaticCard({
-    required this.radius,
-    this.isPage = false,
     this.size,
+    this.animationValue = 0,
     Key? key,
   }) : super(key: key);
 
-  final double radius;
-  final bool isPage;
+  final double animationValue;
   final Size? size;
+
+  bool get isPage => size != null;
+  double get radius => 16 - animationValue * 16;
 
   @override
   Widget build(BuildContext context) {
@@ -31,24 +32,59 @@ class StaticCard extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(radius),
         child: Scaffold(
-          body: ListView(
+          body: Stack(
             children: [
-              SizedBox.fromSize(
-                size: preferredCardSize,
-                child: FittedBox(
-                  child: _headingContainer(theme),
+              Positioned.fill(
+                child: ListView(
+                  children: [
+                    SizedBox.fromSize(
+                      size: preferredCardSize,
+                      child: FittedBox(
+                        child: _headingContainer(theme),
+                      ),
+                    ),
+                    SizedBox(height: 32),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                      ),
+                      child: Text(
+                        'なんかめちゃくちゃむずいんやけど',
+                        style: theme.textTheme.bodyText2!.copyWith(
+                          color: Colors.black.withOpacity(0.8),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
-              SizedBox(height: 32),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                ),
-                child: Text(
-                  'なんかめちゃくちゃむずいんやけど',
-                  style: theme.textTheme.bodyText2!.copyWith(
-                    color: Colors.black.withOpacity(0.8),
-                    fontWeight: FontWeight.bold,
+              SafeArea(
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Opacity(
+                    opacity: animationValue,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.9),
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: Icon(
+                            Icons.close,
+                            color: Colors.grey,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               )

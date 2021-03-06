@@ -57,9 +57,7 @@ class _AppStoreCardState extends State<AppStoreCard> {
                 size: size,
                 child: FittedBox(
                   fit: BoxFit.fitWidth,
-                  child: StaticCard(
-                    radius: 16,
-                  ),
+                  child: StaticCard(),
                 ),
               ),
             );
@@ -96,7 +94,7 @@ class _AppOpenContainerRoute<T> extends ModalRoute<T> {
   Duration get transitionDuration => const Duration(milliseconds: 260);
 
   @override
-  Duration get reverseTransitionDuration => const Duration(milliseconds: 260);
+  Duration get reverseTransitionDuration => const Duration(milliseconds: 200);
 
   RenderBox? _navigator(BuildContext context) {
     return Navigator.of(context).context.findRenderObject() as RenderBox?;
@@ -116,6 +114,8 @@ class _AppOpenContainerRoute<T> extends ModalRoute<T> {
     Animation<double> animation,
     Animation<double> secondaryAnimation,
   ) {
+    /// ListView 内で絶対値を取得した時、RenderBox に SafeArea が足されている。
+    /// もしかしたら、iOS だけの問題かも
     final topPadding = MediaQuery.of(context).padding.top;
     final diffOffset = Offset(0, topPadding);
     final navigator = _navigator(context);
@@ -138,65 +138,23 @@ class _AppOpenContainerRoute<T> extends ModalRoute<T> {
       child: AnimatedBuilder(
         animation: animation,
         builder: (context, _) {
-          Curve _preferredCurve() {
-            switch (animation.status) {
-              case AnimationStatus.dismissed:
-              case AnimationStatus.completed:
-              case AnimationStatus.forward:
-                return Curves.easeOut;
-              case AnimationStatus.reverse:
-                return Curves.easeIn;
-            }
-          }
-
           final curve = CurvedAnimation(
             parent: animation,
-            curve: _preferredCurve(),
+            curve: Curves.easeOut,
           );
           final offset = offsetTween.transform(curve.value);
           final size = sizeTween.transform(curve.value);
+
+          /// Padding の代わりに Stack を使う。
+          /// offset がマイナスに振れた時のケア
           return Stack(
             children: [
               Positioned(
                 top: offset.dy,
                 left: offset.dx,
                 child: StaticCard(
-                  radius: 16 - curve.value * 16,
-                  isPage: true,
                   size: size,
-                ),
-              ),
-              Positioned(
-                top: offset.dy,
-                right: offset.dx,
-                child: SafeArea(
-                  child: Opacity(
-                    opacity: curve.value,
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.9),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Icon(
-                              Icons.close,
-                              color: Colors.grey,
-                              size: 20,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  animationValue: curve.value,
                 ),
               ),
             ],
