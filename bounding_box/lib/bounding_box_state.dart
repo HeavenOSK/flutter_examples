@@ -1,7 +1,6 @@
-import 'dart:math';
+import 'dart:math' as math;
 
 import 'package:bounding_box/dragging_state.dart';
-import 'package:bounding_box/expandable_circle/expandable_circle.dart';
 import 'package:bounding_box/expandable_circle/expandable_circle_state.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -42,40 +41,28 @@ extension BoundingBoxStateX on BoundingBoxState {
         waiting: () {
           return rawRect;
         },
-        expanding: (p, s, c) {
-          final diff = c - s;
-          final currentTopLeft = rawRect.topLeft;
-          final currentSize = rawRect.size;
-          switch (p) {
-            case ExpandableCirclePosition.topLeft:
-              return Rect.fromLTWH(
-                currentTopLeft.dx + diff.dx,
-                currentTopLeft.dy + diff.dy,
-                currentSize.width - diff.dx,
-                currentSize.height - diff.dy,
-              );
-            case ExpandableCirclePosition.topRight:
-              return Rect.fromLTWH(
-                currentTopLeft.dx,
-                currentTopLeft.dy + diff.dy,
-                currentSize.width + diff.dx,
-                currentSize.height - diff.dy,
-              );
-            case ExpandableCirclePosition.bottomLeft:
-              return Rect.fromLTWH(
-                currentTopLeft.dx + diff.dx,
-                currentTopLeft.dy,
-                currentSize.width - diff.dx,
-                currentSize.height + diff.dy,
-              );
-            case ExpandableCirclePosition.bottomRight:
-              return Rect.fromLTWH(
-                currentTopLeft.dx,
-                currentTopLeft.dy,
-                currentSize.width + diff.dx,
-                currentSize.height + diff.dy,
-              );
-          }
+        expanding: (positionType, startPos, currentPos) {
+          final diff = currentPos - startPos; // TODO(heavenOSK): ポジションごとのものを作る
+          final nextOffset = rawRect.topLeft - diff / 2;
+          final sin = math.sin(-rawRadian);
+          final cos = math.cos(-rawRadian);
+          final up = Offset(
+                diff.dx * cos - diff.dy * sin,
+                diff.dx * sin + diff.dy * cos,
+              ) *
+              2;
+          final newSize = rawRect.size +
+              Offset(
+                    diff.dx * cos - diff.dy * sin,
+                    diff.dx * sin + diff.dy * cos,
+                  ) *
+                  2;
+          return Rect.fromLTWH(
+            nextOffset.dx,
+            nextOffset.dy,
+            rawRect.width - up.dx,
+            rawRect.height - up.dy,
+          );
         },
       );
     }
@@ -91,9 +78,11 @@ extension BoundingBoxStateX on BoundingBoxState {
     if (_rotating) {
       return rotatableCircleState.when(
         waiting: () => rawRadian,
-        dragging: (s, c) {
-          final diff = c - s;
-          return rawRadian + pi * diff.dx / 500;
+        dragging: (_, currentPosition) {
+          final center = rawRect.center;
+          final diff = currentPosition - center;
+
+          return math.atan2(diff.dx, -diff.dy);
         },
       );
     }
