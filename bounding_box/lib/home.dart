@@ -17,6 +17,11 @@ class Home extends HookWidget {
         },
       ),
     );
+    final rect = useProvider(
+      BoundingBox.controller.state.select(
+        (value) => value.rect,
+      ),
+    );
     return Scaffold(
       body: Stack(
         children: [
@@ -24,6 +29,17 @@ class Home extends HookWidget {
             top: offset.dy,
             left: offset.dx,
             child: BoundingBox(),
+          ),
+          Positioned(
+            top: rect.center.dy - 5,
+            left: rect.center.dx - 5,
+            child: Container(
+              height: 10,
+              width: 10,
+              decoration: BoxDecoration(
+                color: Colors.red,
+              ),
+            ),
           ),
         ],
       ),
