@@ -114,8 +114,6 @@ class _AppOpenContainerRoute<T> extends ModalRoute<T> {
     Animation<double> animation,
     Animation<double> secondaryAnimation,
   ) {
-    /// ListView 内で絶対値を取得した時、RenderBox に SafeArea が足されている。
-    /// もしかしたら、iOS だけの問題かも
     final topPadding = MediaQuery.of(context).padding.top;
     final diffOffset = Offset(0, topPadding);
     final navigator = _navigator(context);
