@@ -28,29 +28,32 @@ class StaticCard extends StatelessWidget {
     final preferredCardSize = AppStoreCard.size * ratio;
     return SizedBox.fromSize(
       size: _size,
-      child: ClipRect(
-        child: ListView(
-          children: [
-            SizedBox.fromSize(
-              size: preferredCardSize,
-              child: FittedBox(
-                child: _headingContainer(theme),
-              ),
-            ),
-            SizedBox(height: 32),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              child: Text(
-                'なんかめちゃくちゃむずい',
-                style: theme.textTheme.bodyText2!.copyWith(
-                  color: Colors.black.withOpacity(0.5),
-                  fontWeight: FontWeight.bold,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(radius),
+        child: Scaffold(
+          body: ListView(
+            children: [
+              SizedBox.fromSize(
+                size: preferredCardSize,
+                child: FittedBox(
+                  child: _headingContainer(theme),
                 ),
               ),
-            )
-          ],
+              SizedBox(height: 32),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                ),
+                child: Text(
+                  'なんかめちゃくちゃむずいんやけど',
+                  style: theme.textTheme.bodyText2!.copyWith(
+                    color: Colors.black.withOpacity(0.8),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

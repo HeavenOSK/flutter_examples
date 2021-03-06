@@ -16,46 +16,42 @@ class _AppStoreCardState extends State<AppStoreCard> {
   Size get preferredSize =>
       !_pressing ? AppStoreCard.size : AppStoreCard.size * 0.97;
   final _containerKey = GlobalKey();
-  final _areaKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      key: _areaKey,
-      onTap: () {
-        Navigator.of(context).push(
-          _AppOpenContainerRoute(
-            containerKey: _containerKey,
-            areaKey: _areaKey,
-          ),
-        );
-      },
       onTapDown: (_) {
         setState(() {
           _pressing = true;
         });
       },
-      onTapUp: (_) {
+      onTapUp: (_) async {
         setState(() {
           _pressing = false;
         });
+        await Future.delayed(Duration(milliseconds: 260));
+        Navigator.of(context).push(
+          _AppOpenContainerRoute(
+            containerKey: _containerKey,
+          ),
+        );
       },
       onTapCancel: () {
         setState(() {
           _pressing = false;
         });
       },
-      child: TweenAnimationBuilder<Size>(
-        tween: Tween<Size>(
-          begin: AppStoreCard.size,
-          end: preferredSize,
-        ),
-        curve: Curves.easeOut,
-        duration: Duration(milliseconds: 260),
-        builder: (_, size, __) {
-          return SizedBox.fromSize(
-            size: AppStoreCard.size,
-            child: Center(
+      child: SizedBox.fromSize(
+        size: AppStoreCard.size,
+        child: TweenAnimationBuilder<Size>(
+          tween: Tween<Size>(
+            begin: AppStoreCard.size,
+            end: preferredSize,
+          ),
+          curve: Curves.easeOut,
+          duration: Duration(milliseconds: 260),
+          builder: (_, size, __) {
+            return Center(
               child: SizedBox.fromSize(
                 key: _containerKey,
                 size: size,
@@ -66,9 +62,9 @@ class _AppStoreCardState extends State<AppStoreCard> {
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -77,11 +73,9 @@ class _AppStoreCardState extends State<AppStoreCard> {
 class _AppOpenContainerRoute<T> extends ModalRoute<T> {
   _AppOpenContainerRoute({
     required this.containerKey,
-    required this.areaKey,
   });
 
   final GlobalKey containerKey;
-  final GlobalKey areaKey;
 
   @override
   bool get maintainState => true;
@@ -93,16 +87,16 @@ class _AppOpenContainerRoute<T> extends ModalRoute<T> {
   bool get opaque => true;
 
   @override
-  bool get barrierDismissible => true;
+  bool get barrierDismissible => false;
 
   @override
   String? get barrierLabel => null;
 
   @override
-  Duration get transitionDuration => const Duration(milliseconds: 300);
+  Duration get transitionDuration => const Duration(milliseconds: 260);
 
   @override
-  Duration get reverseTransitionDuration => const Duration(milliseconds: 250);
+  Duration get reverseTransitionDuration => const Duration(milliseconds: 260);
 
   RenderBox? _navigator(BuildContext context) {
     return Navigator.of(context).context.findRenderObject() as RenderBox?;
@@ -122,20 +116,23 @@ class _AppOpenContainerRoute<T> extends ModalRoute<T> {
     Animation<double> animation,
     Animation<double> secondaryAnimation,
   ) {
+    final topPadding = MediaQuery.of(context).padding.top;
+    final diffOffset = Offset(0, topPadding);
     final navigator = _navigator(context);
     final containerRect = _rectForKey(
       containerKey,
       navigator!,
     );
-    print(containerRect.topLeft);
-    final areaRect = _rectForKey(
-      areaKey,
-      navigator,
-    );
-    print(areaRect.topLeft);
-    final pageRect = Offset.zero & navigator.size;
-    print(pageRect.topLeft);
 
+    final pageRect = Offset.zero & navigator.size;
+    final offsetTween = Tween<Offset>(
+      begin: containerRect.topLeft - diffOffset,
+      end: pageRect.topLeft,
+    );
+    final sizeTween = Tween<Size>(
+      begin: containerRect.size,
+      end: pageRect.size,
+    );
     return Align(
       alignment: Alignment.topLeft,
       child: AnimatedBuilder(
@@ -152,62 +149,29 @@ class _AppOpenContainerRoute<T> extends ModalRoute<T> {
             }
           }
 
-          Tween<Offset> _preferredOffsetTween() {
-            switch (animation.status) {
-              case AnimationStatus.dismissed:
-              case AnimationStatus.completed:
-              case AnimationStatus.forward:
-                return Tween<Offset>(
-                  begin: containerRect.topLeft,
-                  end: pageRect.topLeft,
-                );
-              case AnimationStatus.reverse:
-                return Tween<Offset>(
-                  begin: areaRect.topLeft,
-                  end: pageRect.topLeft,
-                );
-            }
-          }
-
-          Tween<Size> _preferredSizeTween() {
-            switch (animation.status) {
-              case AnimationStatus.dismissed:
-              case AnimationStatus.completed:
-              case AnimationStatus.forward:
-                return Tween<Size>(
-                  begin: containerRect.size,
-                  end: pageRect.size,
-                );
-              case AnimationStatus.reverse:
-                return Tween<Size>(
-                  begin: areaRect.size,
-                  end: pageRect.size,
-                );
-            }
-          }
-
           final curve = CurvedAnimation(
             parent: animation,
             curve: _preferredCurve(),
           );
-          final offset = _preferredOffsetTween().transform(curve.value);
-          final size = _preferredSizeTween().transform(curve.value);
-          return Scaffold(
-            backgroundColor: Colors.white,
-            body: Stack(
-              children: [
-                Positioned(
-                  top: offset.dy,
-                  left: offset.dx,
-                  child: StaticCard(
-                    radius: 16 - curve.value * 16,
-                    isPage: true,
-                    size: size,
-                  ),
+          final offset = offsetTween.transform(curve.value);
+          final size = sizeTween.transform(curve.value);
+          return Stack(
+            children: [
+              Positioned(
+                top: offset.dy,
+                left: offset.dx,
+                child: StaticCard(
+                  radius: 16 - curve.value * 16,
+                  isPage: true,
+                  size: size,
                 ),
-                SafeArea(
+              ),
+              Positioned(
+                top: offset.dy,
+                right: offset.dx,
+                child: SafeArea(
                   child: Opacity(
-                    opacity: 1,
+                    opacity: curve.value,
                     child: Align(
                       alignment: Alignment.topRight,
                       child: Padding(
@@ -234,8 +198,8 @@ class _AppOpenContainerRoute<T> extends ModalRoute<T> {
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),
